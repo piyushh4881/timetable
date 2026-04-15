@@ -4,524 +4,567 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Exam Timetable – April / May 2026</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <meta name="description" content="Personal exam schedule for April–May 2026 – practicals, viva, and theory exams." />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ── Tokens ──────────────────────────────────── */
     :root {
-      --bg: #0b0f1a;
-      --card: #111827;
-      --card2: #141d2b;
-      --border: rgba(255,255,255,0.07);
-      --accent-practical: #3b82f6;
-      --accent-theory: #8b5cf6;
-      --accent-practical-glow: rgba(59,130,246,0.25);
-      --accent-theory-glow: rgba(139,92,246,0.25);
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --label: #64748b;
-      --success: #10b981;
-      --warning: #f59e0b;
+      --bg:          #f5f2ec;       /* warm parchment */
+      --bg2:         #ede9e0;       /* slightly deeper cream */
+      --surface:     #fdfcf8;       /* card white */
+      --surface2:    #f0ece3;       /* muted card */
+
+      --sage:        #4a7c59;       /* practical accent – sage green */
+      --sage-soft:   #d4e6da;
+      --sage-mid:    #9fc5ab;
+
+      --mauve:       #7c6b9e;       /* theory accent – dusty lavender */
+      --mauve-soft:  #e0d9f0;
+      --mauve-mid:   #b8abcc;
+
+      --amber:       #c47c2b;       /* warm highlight */
+      --amber-soft:  #f5e4c8;
+
+      --ink:         #2c2820;       /* main text */
+      --ink2:        #5c5448;       /* secondary text */
+      --ink3:        #9c9082;       /* muted */
+      --rule:        #ddd8ce;       /* dividers */
+
+      --radius-sm:   0.6rem;
+      --radius:      1rem;
+      --radius-lg:   1.5rem;
+      --shadow-sm:   0 1px 4px rgba(44,40,32,0.08);
+      --shadow:      0 4px 16px rgba(44,40,32,0.10);
+      --shadow-hover:0 8px 28px rgba(44,40,32,0.15);
     }
+
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: var(--ink);
       min-height: 100vh;
-      padding: 2rem 1rem 4rem;
-      background-image:
-        radial-gradient(ellipse 80% 40% at 20% 10%, rgba(59,130,246,0.1) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(139,92,246,0.1) 0%, transparent 60%);
+      padding: 2.5rem 1.25rem 5rem;
+      /* subtle paper grain */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
     }
 
-    /* ── Header ── */
+    /* ── Layout container ─────────────────────────── */
+    .container { max-width: 900px; margin: 0 auto; }
+
+    /* ── Header ───────────────────────────────────── */
     header {
       text-align: center;
-      margin-bottom: 3rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 2.5rem;
     }
-    header .badge {
-      display: inline-block;
-      padding: 0.35rem 1rem;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
+    .header-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--ink3);
       margin-bottom: 1rem;
     }
     header h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 800;
-      background: linear-gradient(135deg, #60a5fa, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.15;
+      font-family: 'Lora', serif;
+      font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
     }
+    header h1 span { color: var(--sage); }
     header p {
-      margin-top: 0.75rem;
-      color: var(--muted);
-      font-size: 1rem;
+      color: var(--ink2);
+      font-size: 0.95rem;
     }
 
-    /* ── Countdown Strip ── */
-    .countdown-strip {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 3rem;
+    /* ── At-a-glance strip ────────────────────────── */
+    .glance {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 2.5rem;
     }
-    .countdown-chip {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 1rem;
-      padding: 0.9rem 1.4rem;
+    .glance-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 1.1rem 1rem;
       text-align: center;
-      min-width: 120px;
+      box-shadow: var(--shadow-sm);
     }
-    .countdown-chip .days {
-      font-family: 'Outfit', sans-serif;
+    .glance-card .num {
+      font-family: 'Lora', serif;
       font-size: 2rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #60a5fa, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-weight: 700;
+      color: var(--sage);
+      line-height: 1;
     }
-    .countdown-chip .label {
-      font-size: 0.7rem;
+    .glance-card .num.mauve { color: var(--mauve); }
+    .glance-card .num.amber { color: var(--amber); }
+    .glance-card .sub {
+      font-size: 0.68rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--label);
+      letter-spacing: 0.09em;
+      color: var(--ink3);
+      margin-top: 0.35rem;
     }
 
-    /* ── Section Heading ── */
-    .section-heading {
+    /* ── Section header ───────────────────────────── */
+    .section-head {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
-    .section-heading .dot {
-      width: 12px; height: 12px;
-      border-radius: 50%;
+    .section-head .line {
+      flex: 1; height: 1px; background: var(--rule);
+    }
+    .section-head h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .section-tag {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
       flex-shrink: 0;
     }
-    .dot-practical { background: var(--accent-practical); box-shadow: 0 0 10px var(--accent-practical); }
-    .dot-theory    { background: var(--accent-theory);    box-shadow: 0 0 10px var(--accent-theory); }
-    .section-heading h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-    }
-    .section-heading .pill {
-      margin-left: auto;
-      font-size: 0.7rem;
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-    .pill-practical { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
-    .pill-theory    { background: rgba(139,92,246,0.15);  color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
+    .tag-sage  { background: var(--sage-soft);  color: var(--sage); }
+    .tag-mauve { background: var(--mauve-soft); color: var(--mauve); }
 
-    /* ── Grid ── */
-    .grid {
+    /* ── Card grid ────────────────────────────────── */
+    .card-grid {
       display: grid;
-      gap: 1rem;
-      margin-bottom: 3rem;
+      gap: 0.85rem;
+      margin-bottom: 2.75rem;
     }
-    .practical-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-    .theory-grid    { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+    .three-col { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    .four-col  { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
 
-    /* ── Card ── */
+    /* ── Exam card ────────────────────────────────── */
     .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 1.25rem;
-      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
       position: relative;
       overflow: hidden;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
     .card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
     }
-    .card.practical {
-      border-left: 3px solid var(--accent-practical);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
-    }
-    .card.practical:hover { box-shadow: 0 8px 40px var(--accent-practical-glow), 0 4px 24px rgba(0,0,0,0.3); }
-    .card.theory {
-      border-left: 3px solid var(--accent-theory);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
-    }
-    .card.theory:hover { box-shadow: 0 8px 40px var(--accent-theory-glow), 0 4px 24px rgba(0,0,0,0.3); }
 
-    /* subtle glow orb */
+    /* accent tab on left */
     .card::before {
       content: '';
       position: absolute;
-      top: -40px; right: -40px;
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      opacity: 0.06;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      border-radius: 4px 0 0 4px;
+    }
+    .card.sage::before  { background: var(--sage); }
+    .card.mauve::before { background: var(--mauve); }
+
+    /* serial index ghost */
+    .card-idx {
+      position: absolute;
+      top: 0.6rem; right: 0.9rem;
+      font-family: 'Lora', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      opacity: 0.05;
+      line-height: 1;
+      color: var(--ink);
       pointer-events: none;
     }
-    .card.practical::before { background: var(--accent-practical); }
-    .card.theory::before    { background: var(--accent-theory); }
 
-    .card-number {
-      position: absolute;
-      top: 1rem; right: 1.2rem;
-      font-family: 'Outfit', sans-serif;
-      font-size: 2.5rem;
-      font-weight: 800;
-      opacity: 0.06;
-      line-height: 1;
-    }
-
-    .card-date {
-      display: inline-block;
-      font-size: 0.72rem;
+    /* date chip */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.68rem;
       font-weight: 600;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 0.25rem 0.65rem;
+      padding: 0.22rem 0.65rem;
       border-radius: 999px;
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.8rem;
     }
-    .practical .card-date { background: rgba(59,130,246,0.12); color: #60a5fa; }
-    .theory    .card-date { background: rgba(139,92,246,0.12);  color: #a78bfa; }
+    .chip.sage  { background: var(--sage-soft);  color: var(--sage); }
+    .chip.mauve { background: var(--mauve-soft); color: var(--mauve); }
 
     .card h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      line-height: 1.35;
-      margin-bottom: 1rem;
+      font-family: 'Lora', serif;
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.4;
+      margin-bottom: 0.9rem;
     }
 
-    .card-meta {
+    .card-detail {
       display: flex;
       flex-direction: column;
+      gap: 0.35rem;
+    }
+    .detail-row {
+      display: flex;
+      align-items: center;
       gap: 0.45rem;
+      font-size: 0.8rem;
+      color: var(--ink2);
     }
-    .meta-row {
+    .detail-row .ico { font-size: 0.9rem; flex-shrink: 0; opacity: 0.75; }
+
+    /* countdown footer */
+    .card-footer {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 0.82rem;
-      color: var(--muted);
+      justify-content: space-between;
+      margin-top: 1rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--rule);
     }
-    .meta-row .icon { font-size: 0.95rem; flex-shrink: 0; }
-    .meta-row strong { color: var(--text); font-weight: 500; }
-
-    /* countdown badge per card */
-    .days-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      margin-top: 1.1rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border);
-    }
-    .days-badge .num {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 800;
-    }
-    .practical .days-badge .num { color: #60a5fa; }
-    .theory    .days-badge .num { color: #a78bfa; }
-    .days-badge .sub { font-size: 0.72rem; color: var(--label); line-height: 1.3; }
-
-    /* ── Progress bar ── */
-    .progress-section {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 1.25rem;
-      padding: 1.5rem;
-      margin-bottom: 3rem;
-    }
-    .progress-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1rem;
+    .days-left {
+      font-family: 'Lora', serif;
+      font-size: 1.6rem;
       font-weight: 700;
-      margin-bottom: 1rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-size: 0.75rem;
+      line-height: 1;
     }
-    .progress-row {
+    .days-left.sage  { color: var(--sage); }
+    .days-left.mauve { color: var(--mauve); }
+    .days-left.red   { color: #c0392b; }
+    .days-left.amber { color: var(--amber); }
+    .days-label { font-size: 0.68rem; color: var(--ink3); line-height: 1.3; }
+
+    /* urgency ring */
+    .urgency-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+
+    /* ── Divider ──────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: var(--rule);
+      margin: 2.25rem 0;
+    }
+
+    /* ── Timeline bar ─────────────────────────────── */
+    .timeline-section {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 2.5rem;
+    }
+    .timeline-section .tl-title {
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      color: var(--ink2);
+    }
+    .tl-row {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.7rem;
+      gap: 0.85rem;
+      margin-bottom: 0.65rem;
     }
-    .progress-label { font-size: 0.8rem; color: var(--muted); width: 220px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .progress-bar-wrap { flex: 1; background: rgba(255,255,255,0.05); border-radius: 9px; height: 6px; }
-    .progress-bar { height: 100%; border-radius: 9px; }
-    .progress-days { font-size: 0.75rem; color: var(--label); width: 60px; text-align: right; flex-shrink: 0; }
+    .tl-label {
+      font-size: 0.75rem;
+      color: var(--ink2);
+      width: 210px;
+      flex-shrink: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tl-track {
+      flex: 1;
+      height: 6px;
+      background: var(--bg2);
+      border-radius: 9px;
+      overflow: hidden;
+    }
+    .tl-fill { height: 100%; border-radius: 9px; }
+    .tl-days {
+      font-size: 0.72rem;
+      color: var(--ink3);
+      width: 40px;
+      text-align: right;
+      flex-shrink: 0;
+    }
 
-    /* ── Footer ── */
+    /* ── Motivational footer ──────────────────────── */
+    .mot-box {
+      background: linear-gradient(135deg, var(--sage-soft), var(--mauve-soft));
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .mot-box p:first-child {
+      font-family: 'Lora', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+    .mot-box p:last-child { font-size: 0.85rem; color: var(--ink2); }
+
+    /* ── Footer ───────────────────────────────────── */
     footer {
       text-align: center;
-      color: var(--label);
-      font-size: 0.8rem;
-      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: var(--ink3);
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
     }
 
-    /* ── Separator ── */
-    .sep { height: 1px; background: var(--border); margin: 2.5rem 0; }
+    /* ── Dark mode preference ────────────────────── */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:     #1e1c18;
+        --bg2:    #272420;
+        --surface:#26231d;
+        --surface2:#2e2b24;
+        --ink:    #ede9df;
+        --ink2:   #b0aa9e;
+        --ink3:   #706a5e;
+        --rule:   #38342c;
+
+        --sage:       #6fb382;
+        --sage-soft:  rgba(111,179,130,0.12);
+        --sage-mid:   #4a7c59;
+
+        --mauve:      #a98fd0;
+        --mauve-soft: rgba(169,143,208,0.12);
+        --mauve-mid:  #7c6b9e;
+
+        --amber:      #d4943a;
+        --amber-soft: rgba(212,148,58,0.12);
+      }
+    }
 
     @media (max-width: 480px) {
-      .practical-grid, .theory-grid { grid-template-columns: 1fr; }
+      .three-col, .four-col { grid-template-columns: 1fr; }
+      .tl-label { width: 130px; }
     }
   </style>
 </head>
 <body>
+<div class="container">
 
-<header>
-  <div class="badge">📅 Academic Calendar 2026</div>
-  <h1>Exam Timetable<br/>April – May 2026</h1>
-  <p>Practicals · Viva · Theory — all in one place</p>
-</header>
+  <!-- ── Header ── -->
+  <header>
+    <div class="header-kicker">📚 Academic Calendar · 2026</div>
+    <h1>Exam Timetable<br/><span>April – May 2026</span></h1>
+    <p>Practicals &amp; Viva &nbsp;·&nbsp; Theory &nbsp;·&nbsp; Countdowns</p>
+  </header>
 
-<!-- Countdown strip populated by JS -->
-<div class="countdown-strip" id="strip"></div>
+  <!-- ── At-a-glance ── -->
+  <div class="glance" id="glance"></div>
 
-<!-- ══════════════════════════════════════════
-     PRACTICAL / VIVA EXAMS
-════════════════════════════════════════════ -->
-<div class="section-heading">
-  <span class="dot dot-practical"></span>
-  <h2>Practical &amp; Viva Exams</h2>
-  <span class="pill pill-practical">3 Exams</span>
-</div>
+  <!-- ══════════════════════════════════
+       PRACTICAL / VIVA EXAMS
+  ═══════════════════════════════════ -->
+  <div class="section-head">
+    <h2>Practical &amp; Viva Exams</h2>
+    <span class="section-tag tag-sage">3 Exams</span>
+    <div class="line"></div>
+  </div>
 
-<div class="grid practical-grid" id="practical-grid"></div>
+  <div class="card-grid three-col" id="practical-grid"></div>
 
-<div class="sep"></div>
+  <div class="divider"></div>
 
-<!-- ══════════════════════════════════════════
-     THEORY EXAMS
-════════════════════════════════════════════ -->
-<div class="section-heading">
-  <span class="dot dot-theory"></span>
-  <h2>Theory Exams</h2>
-  <span class="pill pill-theory">8 Exams</span>
-</div>
+  <!-- ══════════════════════════════════
+       THEORY EXAMS
+  ═══════════════════════════════════ -->
+  <div class="section-head">
+    <h2>Theory Exams</h2>
+    <span class="section-tag tag-mauve">8 Exams</span>
+    <div class="line"></div>
+  </div>
 
-<div class="grid theory-grid" id="theory-grid"></div>
+  <div class="card-grid four-col" id="theory-grid"></div>
 
-<!-- ══════════════════════════════════════════
-     TIMELINE BAR
-════════════════════════════════════════════ -->
-<div class="progress-section">
-  <div class="progress-title">⏳ Days Until Each Exam</div>
-  <div id="progress-bars"></div>
-</div>
+  <!-- ── Timeline ── -->
+  <div class="timeline-section">
+    <div class="tl-title">⏳ Days remaining — all exams</div>
+    <div id="timeline-bars"></div>
+  </div>
 
-<footer>
-  Good luck, Piyush! 🚀 &nbsp;·&nbsp; Generated on <span id="gen-date"></span>
-</footer>
+  <!-- ── Motivational box ── -->
+  <div class="mot-box">
+    <p>You've got this, Piyush! 🌿</p>
+    <p>Stay consistent, rest well, and trust your preparation. One exam at a time.</p>
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer>
+    Generated on <span id="gen-date"></span> &nbsp;·&nbsp; Good luck! 🍀
+  </footer>
+
+</div><!-- end container -->
 
 <script>
-  // ── Data ──────────────────────────────────────────────
-  const now = new Date();
-  now.setHours(0,0,0,0);
+  /* ── Data ─────────────────────────────────────────── */
+  const TODAY = new Date();
+  TODAY.setHours(0, 0, 0, 0);
 
-  const practicals = [
-    {
-      subject: "Introduction to Intelligent Systems",
-      date: new Date(2026, 3, 21),   // Apr 21
-      time: "9:20 AM – 11:10 AM",
-      day: "Tuesday",
-      type: "Practical / Viva",
-      emoji: "🤖"
-    },
-    {
-      subject: "Cloud Computing",
-      date: new Date(2026, 3, 22),   // Apr 22
-      time: "11:10 AM – 1:00 PM",
-      day: "Wednesday",
-      type: "Practical / Viva",
-      emoji: "☁️"
-    },
-    {
-      subject: "OOPs with C++",
-      date: new Date(2026, 3, 23),   // Apr 23
-      time: "9:20 AM – 11:10 AM",
-      day: "Thursday",
-      type: "Practical / Viva",
-      emoji: "⚙️"
-    },
+  const PRACTICALS = [
+    { emoji: "🤖", subject: "Introduction to Intelligent Systems", date: new Date(2026,3,21), day: "Tuesday",   time: "9:20 AM – 11:10 AM", type: "Practical / Viva" },
+    { emoji: "☁️", subject: "Cloud Computing",                     date: new Date(2026,3,22), day: "Wednesday", time: "11:10 AM – 1:00 PM",  type: "Practical / Viva" },
+    { emoji: "⚙️", subject: "OOPs with C++",                       date: new Date(2026,3,23), day: "Thursday",  time: "9:20 AM – 11:10 AM", type: "Practical / Viva" },
   ];
 
-  const theories = [
-    {
-      subject: "Computer Organization and Architecture",
-      date: new Date(2026, 3, 27),
-      day: "Monday",
-      emoji: "🖥️"
-    },
-    {
-      subject: "Object-Oriented Programming in C++",
-      date: new Date(2026, 3, 28),
-      day: "Tuesday",
-      emoji: "⚙️"
-    },
-    {
-      subject: "Probability and Statistics",
-      date: new Date(2026, 3, 29),
-      day: "Wednesday",
-      emoji: "📊"
-    },
-    {
-      subject: "Introduction to Intelligent System",
-      date: new Date(2026, 3, 30),
-      day: "Thursday",
-      emoji: "🤖"
-    },
-    {
-      subject: "Cloud Computing Practitioner",
-      date: new Date(2026, 4, 1),
-      day: "Friday",
-      emoji: "☁️"
-    },
-    {
-      subject: "Quantitative Aptitude & Data Interpretation",
-      date: new Date(2026, 4, 4),
-      day: "Monday",
-      emoji: "🔢"
-    },
-    {
-      subject: "Environment Science",
-      date: new Date(2026, 4, 5),
-      day: "Tuesday",
-      emoji: "🌿"
-    },
-    {
-      subject: "Indian Constitution",
-      date: new Date(2026, 4, 6),
-      day: "Wednesday",
-      emoji: "⚖️"
-    },
+  const THEORIES = [
+    { emoji: "🖥️", subject: "Computer Organization and Architecture",  date: new Date(2026,3,27), day: "Monday"   },
+    { emoji: "⚙️", subject: "Object-Oriented Programming in C++",       date: new Date(2026,3,28), day: "Tuesday"  },
+    { emoji: "📊", subject: "Probability and Statistics",               date: new Date(2026,3,29), day: "Wednesday"},
+    { emoji: "🤖", subject: "Introduction to Intelligent System",       date: new Date(2026,3,30), day: "Thursday" },
+    { emoji: "☁️", subject: "Cloud Computing Practitioner",             date: new Date(2026,4,1),  day: "Friday"   },
+    { emoji: "🔢", subject: "Quantitative Aptitude & Data Interpretation", date: new Date(2026,4,4), day: "Monday" },
+    { emoji: "🌿", subject: "Environment Science",                      date: new Date(2026,4,5),  day: "Tuesday"  },
+    { emoji: "⚖️", subject: "Indian Constitution",                      date: new Date(2026,4,6),  day: "Wednesday"},
   ];
 
-  // ── Helpers ──────────────────────────────────────────
-  function daysUntil(d) {
+  /* ── Helpers ────────────────────────────────────── */
+  const daysUntil = d => {
     const t = new Date(d); t.setHours(0,0,0,0);
-    return Math.ceil((t - now) / 86400000);
-  }
+    return Math.ceil((t - TODAY) / 86400000);
+  };
+  const fmtDate = d => d.toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+  const fmtShort = d => d.toLocaleDateString('en-IN', { day:'numeric', month:'short' });
 
-  function formatDate(d) {
-    return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-  }
+  // urgency: day count → CSS class on .days-left
+  const urgencyClass = (days, accent) => {
+    if (days <= 0)  return 'red';
+    if (days <= 5)  return 'red';
+    if (days <= 10) return 'amber';
+    return accent;
+  };
+  const urgencyDot = days => {
+    if (days <= 5)  return '#e74c3c';
+    if (days <= 10) return '#e67e22';
+    return '#4a7c59';
+  };
 
-  function urgencyColor(days) {
-    if (days <= 3)  return '#f87171';
-    if (days <= 7)  return '#fb923c';
-    if (days <= 14) return '#facc15';
-    return '#4ade80';
-  }
-
-  // ── Strip ────────────────────────────────────────────
-  const firstPractical = practicals[0];
-  const firstTheory    = theories[0];
-  const lastTheory     = theories[theories.length - 1];
-  const examPeriodDays = daysUntil(lastTheory.date) - daysUntil(firstPractical.date) + 1;
-
-  document.getElementById('strip').innerHTML = `
-    <div class="countdown-chip">
-      <div class="days">${daysUntil(firstPractical.date)}</div>
-      <div class="label">Days to First Practical</div>
+  /* ── At-a-glance strip ──────────────────────────── */
+  const firstP = PRACTICALS[0];
+  const firstT = THEORIES[0];
+  const lastT  = THEORIES[THEORIES.length - 1];
+  document.getElementById('glance').innerHTML = `
+    <div class="glance-card">
+      <div class="num">${daysUntil(firstP.date)}</div>
+      <div class="sub">Days to First Practical</div>
     </div>
-    <div class="countdown-chip">
-      <div class="days">${daysUntil(firstTheory.date)}</div>
-      <div class="label">Days to First Theory</div>
+    <div class="glance-card">
+      <div class="num mauve">${daysUntil(firstT.date)}</div>
+      <div class="sub">Days to First Theory</div>
     </div>
-    <div class="countdown-chip">
-      <div class="days">${daysUntil(lastTheory.date)}</div>
-      <div class="label">Days to Last Exam</div>
+    <div class="glance-card">
+      <div class="num amber">${daysUntil(lastT.date)}</div>
+      <div class="sub">Days to Last Exam</div>
     </div>
-    <div class="countdown-chip">
-      <div class="days">${examPeriodDays}</div>
-      <div class="label">Total Exam Period (days)</div>
+    <div class="glance-card">
+      <div class="num" style="color:var(--ink2);">${PRACTICALS.length + THEORIES.length}</div>
+      <div class="sub">Total Exams</div>
     </div>
   `;
 
-  // ── Practical cards ───────────────────────────────────
+  /* ── Build practical cards ───────────────────────── */
   const pg = document.getElementById('practical-grid');
-  practicals.forEach((e, i) => {
+  PRACTICALS.forEach((e, i) => {
     const days = daysUntil(e.date);
+    const uc   = urgencyClass(days, 'sage');
     pg.innerHTML += `
-      <div class="card practical">
-        <div class="card-number">${i+1}</div>
-        <div class="card-date">${e.day}, ${formatDate(e.date)}</div>
+      <div class="card sage" id="p-${i+1}">
+        <div class="card-idx">${i+1}</div>
+        <div class="chip sage">📅 ${e.day}, ${fmtShort(e.date)}</div>
         <h3>${e.emoji} ${e.subject}</h3>
-        <div class="card-meta">
-          <div class="meta-row"><span class="icon">🕐</span><strong>${e.time}</strong></div>
-          <div class="meta-row"><span class="icon">🏷️</span>${e.type}</div>
+        <div class="card-detail">
+          <div class="detail-row"><span class="ico">🕐</span>${e.time}</div>
+          <div class="detail-row"><span class="ico">🏷️</span>${e.type}</div>
+          <div class="detail-row"><span class="ico">📆</span>${fmtDate(e.date)}</div>
         </div>
-        <div class="days-badge">
-          <div class="num">${days}</div>
-          <div class="sub">days<br/>remaining</div>
+        <div class="card-footer">
+          <div>
+            <div class="days-left ${uc}">${days}</div>
+            <div class="days-label">days<br/>remaining</div>
+          </div>
+          <div class="urgency-dot" style="background:${urgencyDot(days)};"></div>
         </div>
-      </div>
-    `;
+      </div>`;
   });
 
-  // ── Theory cards ──────────────────────────────────────
+  /* ── Build theory cards ──────────────────────────── */
   const tg = document.getElementById('theory-grid');
-  theories.forEach((e, i) => {
+  THEORIES.forEach((e, i) => {
     const days = daysUntil(e.date);
+    const uc   = urgencyClass(days, 'mauve');
     tg.innerHTML += `
-      <div class="card theory">
-        <div class="card-number">${i+1}</div>
-        <div class="card-date">${e.day}, ${formatDate(e.date)}</div>
+      <div class="card mauve" id="t-${i+1}">
+        <div class="card-idx">${i+1}</div>
+        <div class="chip mauve">📅 ${e.day}, ${fmtShort(e.date)}</div>
         <h3>${e.emoji} ${e.subject}</h3>
-        <div class="card-meta">
-          <div class="meta-row"><span class="icon">📝</span>Theory Examination</div>
+        <div class="card-detail">
+          <div class="detail-row"><span class="ico">📝</span>Theory Examination</div>
+          <div class="detail-row"><span class="ico">📆</span>${fmtDate(e.date)}</div>
         </div>
-        <div class="days-badge">
-          <div class="num">${days}</div>
-          <div class="sub">days<br/>remaining</div>
+        <div class="card-footer">
+          <div>
+            <div class="days-left ${uc}">${days}</div>
+            <div class="days-label">days<br/>remaining</div>
+          </div>
+          <div class="urgency-dot" style="background:${urgencyDot(days)};"></div>
         </div>
-      </div>
-    `;
+      </div>`;
   });
 
-  // ── Progress bars ─────────────────────────────────────
+  /* ── Timeline bars ───────────────────────────────── */
   const all = [
-    ...practicals.map(e => ({subject: e.subject, date: e.date, prac: true})),
-    ...theories.map(e => ({subject: e.subject, date: e.date, prac: false})),
+    ...PRACTICALS.map(e => ({...e, accent:'#4a7c59'})),
+    ...THEORIES.map(e => ({...e, accent:'#7c6b9e'})),
   ];
-  const maxDays = Math.max(...all.map(e => daysUntil(e.date)));
-  const pb = document.getElementById('progress-bars');
+  const maxD = Math.max(...all.map(e => daysUntil(e.date)), 1);
+  const tb   = document.getElementById('timeline-bars');
   all.forEach(e => {
     const days = daysUntil(e.date);
-    const pct  = Math.max(4, (days / maxDays) * 100);
-    const col  = e.prac ? '#3b82f6' : '#8b5cf6';
-    pb.innerHTML += `
-      <div class="progress-row">
-        <div class="progress-label" title="${e.subject}">${e.subject}</div>
-        <div class="progress-bar-wrap">
-          <div class="progress-bar" style="width:${pct}%;background:${col};"></div>
+    const pct  = Math.max(5, (days / maxD) * 100);
+    tb.innerHTML += `
+      <div class="tl-row">
+        <div class="tl-label" title="${e.subject}">${e.emoji} ${e.subject}</div>
+        <div class="tl-track">
+          <div class="tl-fill" style="width:${pct}%;background:${e.accent};opacity:0.65;"></div>
         </div>
-        <div class="progress-days">${days}d</div>
-      </div>
-    `;
+        <div class="tl-days">${days}d</div>
+      </div>`;
   });
 
-  // ── Footer date ───────────────────────────────────────
+  /* ── Footer date ─────────────────────────────────── */
   document.getElementById('gen-date').textContent =
     new Date().toLocaleDateString('en-IN', {day:'numeric', month:'long', year:'numeric'});
 </script>
