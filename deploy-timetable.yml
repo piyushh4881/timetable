@@ -1,0 +1,52 @@
+name: Deploy Exam Timetable to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main          # triggers every time you push to main
+    paths:
+      - 'timetable.html'   # only re-deploy when timetable changes
+  workflow_dispatch:       # allows manual trigger from GitHub UI
+
+# Required permissions for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Prevent parallel deployments
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest          # free Linux runner (GitHub-hosted)
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # 1. Check out the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Rename timetable.html → index.html so GitHub Pages serves it at root
+      - name: Prepare site files
+        run: |
+          mkdir -p ./site
+          cp timetable.html ./site/index.html
+
+      # 3. Upload the site folder as a Pages artifact
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+
+      # 4. Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
